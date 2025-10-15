@@ -1,1 +1,8 @@
-<p>funciona</p>
+<label [for]="inputId()" [class]="class()">{{ nameLabel() }}</label>
+<input
+  [type]="type()"
+  [id]="inputId()"
+  [class]="classInput()"
+  [placeholder]="placeHolder()"
+  required
+/>

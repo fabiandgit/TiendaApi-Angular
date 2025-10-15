@@ -1,8 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
-Component({
+@Component({
   selector: 'app-inputs',
-  templateUrl: './inputs/inputs.component.html',
-});
-
-export class InputComponent {}
+  imports: [],
+  templateUrl: './inputs.component.html',
+})
+export class InputsComponent {
+  type = input<string>('');
+  nameLabel = input<string>('');
+  inputId = input<string>('');
+  class = input<string>('');
+  classInput = input<string>('');
+  placeHolder = input<string>('');
+}
