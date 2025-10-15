@@ -13,20 +13,13 @@ export const routes: Routes = [
             (m) => m.ProductosComponent
           ),
       },
-      // {
-      //   path: 'productos/agregar',
-      //   loadComponent: () =>
-      //     import('./pages/productos/agregar-producto.component').then(
-      //       (m) => m.AgregarProductoComponent
-      //     ),
-      // },
-      // {
-      //   path: 'productos/editar/:id',
-      //   loadComponent: () =>
-      //     import('./pages/productos/editar-producto.component').then(
-      //       (m) => m.EditarProductoComponent
-      //     ),
-      // },
+      {
+        path: 'empleados',
+        loadComponent: () =>
+          import('./pages/empleados/empleados.component').then(
+            (e) => e.EmpleadosComponent
+          ),
+      },
     ],
   },
 ];
