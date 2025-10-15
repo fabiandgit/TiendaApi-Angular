@@ -20,6 +20,13 @@ export const routes: Routes = [
             (e) => e.EmpleadosComponent
           ),
       },
+      {
+        path: 'ventas',
+        loadComponent: () =>
+          import('./pages/ventas/ventas.component').then(
+            (v) => v.VentasComponent
+          ),
+      },
     ],
   },
 ];
