@@ -29,4 +29,9 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: '**',
+    redirectTo: '',
+    pathMatch: 'full', // Asegura que la ruta comodín coincida con la URL completa
+  },
 ];

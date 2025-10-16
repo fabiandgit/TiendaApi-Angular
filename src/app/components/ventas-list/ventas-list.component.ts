@@ -8,5 +8,5 @@ import { TableComponent } from '../shared/table/table.component';
   styleUrl: './ventas-list.component.css',
 })
 export class VentasListComponent {
-  employee = signal(['Nombre', 'Apellido', 'Edad', 'Celular']);
+  employee = signal(['Nombre', 'Apellido', 'Edad', 'Celular', 'Opciones']);
 }

@@ -8,4 +8,5 @@ import { Component, input } from '@angular/core';
 })
 export class TableComponent {
   nameColumns = input<string[]>(['']);
+  infoColumns = input<string[]>(['']);
 }

@@ -8,6 +8,12 @@ import { TableComponent } from '../shared/table/table.component';
   styleUrl: './empleados-list.component.css',
 })
 export class EmpleadosListComponent {
-  // employee = signal(['Nombre', 'Apellido', 'Edad', 'Celular', 'Cargo']);
-  employee = signal(['Nombre', 'Apellido', 'Edad', 'Celular']);
+  columnEmployee = signal([
+    'Nombre',
+    'Apellido',
+    'Edad',
+    'Celular',
+    'Opciones',
+  ]);
+  infoColumns = signal<string[]>(['']);
 }

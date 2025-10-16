@@ -13,5 +13,7 @@ export class ProductosListComponent {
     'Descripcion',
     'Precio',
     'Cantidad',
+    'opciones',
   ]);
+  infoColumns = signal<string[]>(['']);
 }
