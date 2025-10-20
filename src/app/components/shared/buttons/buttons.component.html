@@ -1,3 +1,4 @@
-<button [type]="typeButton()" [class]="classButton()">
+<button [type]="typeButton()" [class]="classButton()" [disabled]="disabled()">
+  <ng-content></ng-content>
   {{ titleButton() }}
 </button>

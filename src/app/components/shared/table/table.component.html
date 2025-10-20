@@ -1,35 +1,39 @@
 <table
-  class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+  class="w-full text-sm text-left text-gray-500 dark:text-gray-400 border border-gray-200"
 >
   <thead
     class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-white"
   >
     <tr>
-      @for (name of nameColumns(); track $index) {
-      <th scope="col" class="px-6 py-3">{{ name }}</th>
+      @for (column of columns(); track $index) {
+      <th scope="col" class="px-6 py-3">{{ column.label }}</th>
       }
+      <th scope="col" class="px-6 py-3">Opciones</th>
     </tr>
   </thead>
-  <tbody>
-    <tr
-      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200"
-    >
-      @for (item of infoColumns(); track $index) {
 
-      <th
-        scope="row"
-        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-      >
-        Apple MacBook Pro 17"
-      </th>
-      <td class="px-6 py-4">Silver</td>
-      <td class="px-6 py-4">Laptop</td>
-      <td class="px-6 py-4">$2999</td>
+  <tbody>
+    @if (data().length === 0) {
+    <tr>
+      <td colspan="100%" class="text-center py-4 text-gray-500">
+        No hay registros disponibles.
+      </td>
+    </tr>
+    } @else { @for (item of data(); track $index) {
+    <tr
+      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition"
+    >
+      @for (column of columns(); track column.key) {
       <td class="px-6 py-4">
-        <a>icon</a>
-        <a class="ml-5">icon</a>
+        {{ item[column.key] }}
       </td>
       }
+
+      <td class="px-6 py-4 flex items-center space-x-3">
+        <button (click)="onEdit(item)">✏️</button>
+        <button (click)="onDelete(item)">🗑️</button>
+      </td>
     </tr>
+    } }
   </tbody>
 </table>

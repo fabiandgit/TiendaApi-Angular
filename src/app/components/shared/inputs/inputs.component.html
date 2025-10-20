@@ -1,8 +1,13 @@
-<label [for]="inputId()" [class]="class()">{{ nameLabel() }}</label>
-<input
-  [type]="type()"
-  [id]="inputId()"
-  [class]="classInput()"
-  [placeholder]="placeHolder()"
-  required
-/>
+<div class="relative z-0 w-full mb-5 group">
+  <label [for]="inputId()" [class]="class()">{{ nameLabel() }}</label>
+  <input
+    [type]="type()"
+    [id]="inputId()"
+    [class]="classInput()"
+    [placeholder]="placeHolder()"
+    [value]="value"
+    (input)="handleChange($event)"
+    (blur)="onTouched()"
+    required
+  />
+</div>

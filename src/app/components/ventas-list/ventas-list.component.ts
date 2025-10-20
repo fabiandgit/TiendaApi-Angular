@@ -8,5 +8,10 @@ import { TableComponent } from '../shared/table/table.component';
   styleUrl: './ventas-list.component.css',
 })
 export class VentasListComponent {
-  employee = signal(['Nombre', 'Apellido', 'Edad', 'Celular', 'Opciones']);
+  columns = signal([
+    { label: 'Nombre Producto', key: 'nombre' },
+    { label: 'Descripción', key: 'descripcion' },
+    { label: 'Precio', key: 'precio' },
+    { label: 'Cantidad', key: 'cantidad' },
+  ]);
 }

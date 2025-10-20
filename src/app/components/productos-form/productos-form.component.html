@@ -1,46 +1,82 @@
-<form class="max-w-sm mx-auto" action="">
+<form [formGroup]="form" (ngSubmit)="save()" class="max-w-sm mx-auto">
+  <!-- Campo: Nombre -->
   <div class="relative z-0 w-full mb-5 group">
     <app-inputs
       nameLabel="Nombre Producto"
-      inputId="nameProducto"
+      inputId="nombreProducto"
       type="text"
+      formControlName="nombre"
       class="block mb-2 text-sm font-medium text-gray-900"
-      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+      placeHolder="Ej: Balón Nike"
     />
+    @if (form.get('nombre')?.touched &&
+    form.get('nombre')?.hasError('required')) {
+    <p class="text-red-500 text-sm">El nombre es obligatorio.</p>
+    }
   </div>
+
+  <!-- Campo: Descripción -->
   <div class="relative z-0 w-full mb-5 group">
     <app-inputs
-      nameLabel="Descripcion"
-      inputId="Description"
+      nameLabel="Descripción"
+      inputId="descripcionProducto"
       type="text"
+      formControlName="descripcion"
       class="block mb-2 text-sm font-medium text-gray-900"
-      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+      placeHolder="Ej: Balón de entrenamiento"
     />
+    @if ( form.get('descripcion')?.touched &&
+    form.get('descripcion')?.hasError('required') ) {
+    <p class="text-red-500 text-sm">La descripción es obligatoria.</p>
+    }
   </div>
+
+  <!-- Campo: Precio -->
   <div class="relative z-0 w-full mb-5 group">
     <app-inputs
       nameLabel="Precio"
-      inputId="price"
+      inputId="precioProducto"
       type="number"
+      formControlName="precio"
       class="block mb-2 text-sm font-medium text-gray-900"
-      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+      placeHolder="Ej: 120000"
     />
+    @if (form.get('precio')?.touched &&
+    form.get('precio')?.hasError('required')) {
+    <p class="text-red-500 text-sm">El precio es obligatorio.</p>
+    } @if (form.get('precio')?.hasError('min')) {
+    <p class="text-red-500 text-sm">El precio debe ser mayor que 0.</p>
+    }
   </div>
+
+  <!-- Campo: Cantidad -->
   <div class="relative z-0 w-full mb-5 group">
     <app-inputs
       nameLabel="Cantidad"
-      inputId="amount"
+      inputId="cantidadProducto"
       type="number"
+      formControlName="cantidad"
       class="block mb-2 text-sm font-medium text-gray-900"
-      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+      placeHolder="Ej: 15"
     />
+    @if ( form.get('cantidad')?.touched &&
+    form.get('cantidad')?.hasError('required') ) {
+    <p class="text-red-500 text-sm">La cantidad es obligatoria.</p>
+    } @if (form.get('cantidad')?.hasError('min')) {
+    <p class="text-red-500 text-sm">Debe ser al menos 1 unidad.</p>
+    }
   </div>
+
+  <!-- Botón Guardar / Actualizar -->
   <div class="relative z-0 w-full mb-5 group">
     <app-buttons
       typeButton="submit"
-      titleButton="Guardar"
-      classButton="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-      (click)="save()"
+      [titleButton]="form.value.id ? 'Actualizar' : 'Guardar'"
+      classButton="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
     />
   </div>
 </form>

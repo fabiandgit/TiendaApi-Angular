@@ -1,11 +1,48 @@
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
+import { Observable } from 'rxjs';
+import { Productos } from '../Models/Productos.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductoService {
-  evn = environment;
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
+  private apiUrl = `${environment.apiUrl}/productos`; // 👈 Ajusta según tu endpoint backend
+
+  /**
+   * 🟢 Obtener todos los productos
+   */
+  getProductos(): Observable<Productos[]> {
+    return this.http.get<Productos[]>(this.apiUrl);
+  }
+
+  /**
+   * 🟢 Obtener un producto por id
+   */
+  getProductoById(id: number): Observable<Productos> {
+    return this.http.get<Productos>(`${this.apiUrl}/${id}`);
+  }
+
+  /**
+   * 🟢 Crear un producto nuevo
+   */
+  addProducto(producto: Productos): Observable<Productos> {
+    return this.http.post<Productos>(this.apiUrl, producto);
+  }
+
+  /**
+   * 🟡 Actualizar producto existente
+   */
+  updateProducto(id: number, producto: Productos): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}`, producto);
+  }
+
+  /**
+   * 🔴 Eliminar producto por id
+   */
+  deleteProducto(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

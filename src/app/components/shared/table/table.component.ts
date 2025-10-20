@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-table',
@@ -7,6 +7,17 @@ import { Component, input } from '@angular/core';
   styleUrl: './table.component.css',
 })
 export class TableComponent {
-  nameColumns = input<string[]>(['']);
-  infoColumns = input<string[]>(['']);
+  columns = input<any[]>([]);
+  data = input<any[]>([]);
+
+  edit = output<any>();
+  delete = output<any>();
+
+  onEdit(item: any) {
+    this.edit.emit(item); // ✅ Emitimos el producto
+  }
+
+  onDelete(item: any) {
+    this.delete.emit(item);
+  }
 }

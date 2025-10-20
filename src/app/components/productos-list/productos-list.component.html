@@ -1,3 +1,13 @@
 <div class="relative overflow-x-auto">
-  <app-table [nameColumns]="nameColumns()" [infoColumns]="infoColumns()" />
+  <app-table
+    [columns]="[
+      { label: 'Nombre', key: 'name' },
+      { label: 'Descripción', key: 'description' },
+      { label: 'Precio', key: 'price' },
+      { label: 'Cantidad', key: 'stock' }
+    ]"
+    [data]="productos()"
+    (edit)="onEdit($event)"
+    (delete)="onDelete($event)"
+  />
 </div>
