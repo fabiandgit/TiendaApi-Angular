@@ -1,0 +1,15 @@
+<div class="relative z-0 w-full mb-5 group">
+  <label [for]="selectId()" [class]="classLabel()">{{ labelName() }}</label>
+  <select
+    [id]="selectId()"
+    [class]="classSelect()"
+    [value]="value"
+    (change)="handleChange($event)"
+    (blur)="onTouched()"
+  >
+    <option value="" disabled selected hidden>Seleccione una opción</option>
+    @for (item of selectValues(); track $index) {
+    <option [value]="item.value">{{ item.name }}</option>
+    }
+  </select>
+</div>

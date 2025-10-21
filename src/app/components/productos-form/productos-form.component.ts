@@ -5,6 +5,7 @@ import {
   OnChanges,
   SimpleChanges,
   inject,
+  effect,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -37,6 +38,7 @@ export class ProductosFormComponent implements OnChanges {
   // Inyecciones
   private fb = inject(FormBuilder);
   private productoService = inject(ProductoService);
+  private productoPendiente: Productos | null = null;
 
   // Formulario reactivo
   form: FormGroup = this.fb.group({
@@ -51,10 +53,24 @@ export class ProductosFormComponent implements OnChanges {
    * 🧩 Detecta cuando se pasa un producto para editarlo
    */
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['productoSeleccionado'] && this.productoSeleccionado) {
-      this.form.patchValue(this.productoSeleccionado);
+    const producto = this.productoSeleccionado();
+    if (changes['productoSeleccionado'] && producto && this.form) {
+      this.form.patchValue(producto);
     }
   }
+  ngOnInit(): void {
+    if (this.productoPendiente) {
+      this.form.patchValue(this.productoPendiente);
+    }
+  }
+  // constructor() {
+  //   effect(() => {
+  //     const producto = this.productoSeleccionado();
+  //     if (producto) {
+  //       this.form.patchValue(producto);
+  //     }
+  //   });
+  // }
 
   /**
    * 💾 Guarda o actualiza el producto según el caso

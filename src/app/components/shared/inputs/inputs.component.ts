@@ -23,7 +23,7 @@ export class InputsComponent implements ControlValueAccessor {
   );
   placeHolder = input<string>('');
 
-  // 👇 Estas propiedades permiten que el input comunique su valor al FormControl
+  // Estas propiedades permiten que el input comunique su valor al FormControl
   value: any = '';
   onChange = (value: any) => {};
   onTouched = () => {};
