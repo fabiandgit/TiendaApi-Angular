@@ -1,3 +1,8 @@
 <div class="relative overflow-x-auto">
-  <app-table [columns]="columns()" [data]="empleados()" />
+  <app-table
+    [columns]="columns()"
+    [data]="empleado()"
+    (edit)="onEdit($event)"
+    (delete)="onDelete($event)"
+  />
 </div>

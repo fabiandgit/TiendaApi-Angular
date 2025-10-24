@@ -14,7 +14,7 @@ export class TableComponent {
   delete = output<any>();
 
   onEdit(item: any) {
-    this.edit.emit(item); // ✅ Emitimos el producto
+    this.edit.emit(item); //  Emitimos el producto
   }
 
   onDelete(item: any) {

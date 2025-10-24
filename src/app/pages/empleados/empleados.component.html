@@ -4,12 +4,12 @@
   >
     Agregar / Editar Producto
   </h2>
-  <app-empleados-form />
+  <app-empleados-form [empleadoSeleccionado]="empleadoSeleccionado()" />
   <hr class="text-white" />
   <h2
     class="flex justify-center text-2xl text-white font-bold mt-5 mb-5 underline"
   >
     Listado de Empleados
   </h2>
-  <app-empleados-list />
+  <app-empleados-list (editEmpleado)="cargarEmpleado($event)" />
 </div>
