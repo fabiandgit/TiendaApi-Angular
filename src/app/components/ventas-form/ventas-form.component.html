@@ -1,22 +1,30 @@
-<form class="max-w-sm mx-auto" action="">
+<form [formGroup]="form" (ngSubmit)="save()" class="max-w-sm mx-auto">
   <div class="relative z-0 w-full mb-5 group">
     <app-inputs
       nameLabel="Nombre Producto"
-      inputId="nameProducto"
+      inputId="nombreProducto"
       type="text"
+      formControlName="nombreProducto"
       class="block mb-2 text-sm font-medium text-gray-900"
-      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+      placeHolder="Ej: Balón Nike"
     />
+    @if (form.get('nombreProducto')?.touched &&
+    form.get('nombreProducto')?.hasError('required')) {
+    <p class="text-red-500 text-sm">El nombre es obligatorio.</p>
+    }
   </div>
   <div class="relative z-0 w-full mb-5 group">
-    <label for="">Empleado</label>
-    <select
-      id="countries"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-    >
-      <option>United States</option>
-      <option>Canada</option>
-    </select>
+    <app-selects
+      labelName="empleados"
+      selectId="empleadoNombre"
+      [selectValues]="empleados()"
+      formControlName="empleadoNombre"
+    />
+    @if(form.get('empleadoNombre')?.touched &&
+    form.get('empleadoNombre')?.hasError('required')){
+    <p class="text-red-500 text-sm">El empleado es obligatorio.</p>
+    }
   </div>
   <div class="relative z-0 w-full mb-5 group">
     <app-inputs
@@ -25,7 +33,12 @@
       type="number"
       class="block mb-2 text-sm font-medium text-gray-900"
       classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+      formControlName="amount"
     />
+    @if (form.get('amount')?.touched &&
+    form.get('amount')?.hasError('required')) {
+    <p class="text-red-500 text-sm">la cantidad es obligatoria.</p>
+    }
   </div>
   <div class="relative z-0 w-full mb-5 group">
     <app-inputs
@@ -34,14 +47,18 @@
       type="number"
       class="block mb-2 text-sm font-medium text-gray-900"
       classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+      formControlName="total"
     />
+    @if (form.get('total')?.touched && form.get('total')?.hasError('required'))
+    {
+    <p class="text-red-500 text-sm">el total es obligatorio.</p>
+    }
   </div>
   <div class="relative z-0 w-full mb-5 group">
     <app-buttons
       typeButton="submit"
       titleButton="Guardar"
       classButton="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-      (click)="save()"
     />
   </div>
 </form>

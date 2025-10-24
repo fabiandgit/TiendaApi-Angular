@@ -4,12 +4,12 @@
   >
     Agregar Producto
   </h2>
-  <app-ventas-form />
+  <app-ventas-form [ventaSeleccionada]="ventaSeleccionada()" />
   <hr class="text-white" />
   <h2
     class="flex justify-center text-2xl text-white font-bold mt-5 mb-5 underline"
   >
     Listado de Productos
   </h2>
-  <app-ventas-list />
+  <app-ventas-list (editVenta)="mostrarVentaSeleccionada($event)" />
 </div>
