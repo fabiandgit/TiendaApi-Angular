@@ -31,11 +31,11 @@ import { SelectsComponent } from '../shared/selects/selects.component';
 })
 export class EmpleadosFormComponent implements OnChanges {
   empleadoSeleccionado = input<Empleados | null>(null);
-  empleadoPendiente = input<Empleados | null>(null);
+  empleadoPendiente: Empleados | null = null;
   cargoNombre = input([
-    { name: 'Mexico', value: 'Colombia' },
-    { name: 'Mexico', value: 'Mexico' },
-    { name: 'Japon', value: 'Japon' },
+    { name: 'Vendedor', value: 'Vendedor' },
+    { name: 'Cajero', value: 'Cajero' },
+    { name: 'Gerente', value: 'Gerente' },
   ]);
 
   private fb = inject(FormBuilder);
@@ -43,11 +43,12 @@ export class EmpleadosFormComponent implements OnChanges {
 
   form: FormGroup = this.fb.group({
     id: [0],
-    nameEmployee: ['', Validators.required],
-    lasNameEmployee: ['', Validators.required],
-    ageEmployee: ['', Validators.required],
-    phone: [0, [Validators.required, Validators.min(0)]],
-    position: ['', Validators.required],
+    nombre: ['', Validators.required],
+    apellido: ['', Validators.required],
+    edad: ['', Validators.required],
+    email: ['', Validators.required],
+    celular: [0, [Validators.required, Validators.min(0)]],
+    cargo: ['', Validators.required],
   });
 
   //se podria utilizar en reemplazo del ngOnchange
@@ -84,7 +85,7 @@ export class EmpleadosFormComponent implements OnChanges {
   }
 
   ngOnInit(): void {
-    const pendiente = this.empleadoPendiente();
+    const pendiente = this.empleadoPendiente;
     if (pendiente) {
       this.form.patchValue(pendiente);
     }
@@ -101,6 +102,7 @@ export class EmpleadosFormComponent implements OnChanges {
         next: () => {
           alert('Producto actualizado correctamente ✅');
           this.resetForm();
+          location.reload();
         },
         error: (err) => console.error('Error al actualizar producto:', err),
       });
@@ -109,6 +111,7 @@ export class EmpleadosFormComponent implements OnChanges {
         next: () => {
           alert('Producto creado correctamente ✅');
           this.resetForm();
+          location.reload();
         },
         error: (err) => console.error('Error al crear producto:', err),
       });

@@ -1,8 +1,9 @@
 export interface Empleados {
   id: number;
-  name: string;
-  lastName: string;
-  age: string;
-  phone: string;
-  position: string;
+  nombre: string;
+  apellido: string;
+  edad: string;
+  email: string;
+  celular: string;
+  cargo: string;
 }

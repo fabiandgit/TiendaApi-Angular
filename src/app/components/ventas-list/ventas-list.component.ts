@@ -11,10 +11,10 @@ import { VentasService } from '../../services/ventas.service';
 })
 export class VentasListComponent implements OnInit {
   columns = signal([
-    { label: 'Nombre Producto', key: 'nombre' },
-    { label: 'Descripción', key: 'descripcion' },
-    { label: 'Precio', key: 'precio' },
+    { label: 'Nombre Producto', key: 'productoNombre' },
+    { label: 'Empleado', key: 'empleadoNombre' },
     { label: 'Cantidad', key: 'cantidad' },
+    { label: 'Total', key: 'total' },
   ]);
   ventas = signal<Ventas[]>([]);
   editVenta = output<Ventas>();

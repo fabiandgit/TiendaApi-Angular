@@ -46,21 +46,24 @@ export class ProductosFormComponent implements OnChanges {
     nombre: ['', Validators.required],
     descripcion: ['', Validators.required],
     precio: [0, [Validators.required, Validators.min(1)]],
-    cantidad: [0, [Validators.required, Validators.min(1)]],
+    stock: [0, [Validators.required, Validators.min(1)]],
   });
 
   /**
    * 🧩 Detecta cuando se pasa un producto para editarlo
    */
   ngOnChanges(changes: SimpleChanges): void {
-    const producto = this.productoSeleccionado();
-    if (changes['productoSeleccionado'] && producto && this.form) {
-      this.form.patchValue(producto);
+    if (changes['productoSeleccionado']) {
+      const producto = this.productoSeleccionado();
+      if (producto) {
+        this.form.patchValue(producto);
+      }
     }
   }
   ngOnInit(): void {
-    if (this.productoPendiente) {
-      this.form.patchValue(this.productoPendiente);
+    const producto = this.productoPendiente;
+    if (producto) {
+      this.form.patchValue(producto);
     }
   }
   // constructor() {
@@ -89,6 +92,7 @@ export class ProductosFormComponent implements OnChanges {
         next: () => {
           alert('Producto actualizado correctamente ✅');
           this.resetForm();
+          location.reload();
         },
         error: (err) => console.error('Error al actualizar producto:', err),
       });
@@ -98,6 +102,7 @@ export class ProductosFormComponent implements OnChanges {
         next: () => {
           alert('Producto creado correctamente ✅');
           this.resetForm();
+          location.reload();
         },
         error: (err) => console.error('Error al crear producto:', err),
       });
@@ -113,7 +118,7 @@ export class ProductosFormComponent implements OnChanges {
       nombre: '',
       descripcion: '',
       precio: 0,
-      cantidad: 0,
+      stock: 0,
     });
   }
 }

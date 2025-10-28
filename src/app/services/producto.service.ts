@@ -9,7 +9,7 @@ import { Productos } from '../Models/Productos.model';
 })
 export class ProductoService {
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/productos`; // 👈 Ajusta según tu endpoint backend
+  private apiUrl = `${environment.apiUrl}/Producto`; // 👈 Ajusta según tu endpoint backend
 
   /**
    * 🟢 Obtener todos los productos

@@ -4,52 +4,85 @@
       class="block mb-2 text-sm font-medium text-gray-900"
       classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
       nameLabel="Nombre Empleado"
-      inputId="nameEmployee"
-      formControlName="nameEmployee"
+      inputId="nombre"
+      formControlName="nombre"
       type="text"
     />
+    @if (form.get('nombre')?.touched &&
+    form.get('nombre')?.hasError('required')) {
+    <p class="text-red-500 text-sm font-medium">El nombre es obligatorio.</p>
+    }
   </div>
   <div class="relative z-0 w-full mb-5 group">
     <app-inputs
       class="block mb-2 text-sm font-medium text-gray-900"
       classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
       nameLabel="Apellido Empleado"
-      inputId="lasNameEmployee"
-      formControlName="lasNameEmployee"
+      inputId="apellido"
+      formControlName="apellido"
       type="text"
     />
+    @if (form.get('apellido')?.touched &&
+    form.get('apellido')?.hasError('required')) {
+    <p class="text-red-500 text-smfont-medium">El apellido es obligatorio.</p>
+    }
   </div>
   <div class="relative z-0 w-full mb-5 group">
     <app-inputs
       class="block mb-2 text-sm font-medium text-gray-900"
       classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
       nameLabel="Edad Empleado"
-      inputId="ageEmployee"
-      formControlName="ageEmployee"
-      type="date"
+      inputId="edad"
+      formControlName="edad"
+      type="text"
     />
+    @if (form.get('edad')?.touched && form.get('edad')?.hasError('required')) {
+    <p class="text-red-500 text-smfont-medium">la edad es obligatorio.</p>
+    }
+  </div>
+  <div class="relative z-0 w-full mb-5 group">
+    <app-inputs
+      class="block mb-2 text-sm font-medium text-gray-900"
+      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+      nameLabel="Email"
+      inputId="email"
+      formControlName="email"
+      type="text"
+    />
+    @if (form.get('email')?.touched && form.get('email')?.hasError('required'))
+    {
+    <p class="text-red-500 text-smfont-medium">el email es obligatorio.</p>
+    }
   </div>
   <div class="relative z-0 w-full mb-5 group">
     <app-inputs
       class="block mb-2 text-sm font-medium text-gray-900"
       classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
       nameLabel="Celular"
-      inputId="phone"
-      formControlName="phone"
+      inputId="celular"
+      formControlName="celular"
       type="text"
     />
+    @if (form.get('celular')?.touched &&
+    form.get('celular')?.hasError('required')) {
+    <p class="text-red-500 text-smfont-medium">el celular es obligatorio.</p>
+    }
   </div>
   <div class="relative z-0 w-full mb-5 group">
     <app-selects
       labelName="Cargo"
       [selectValues]="cargoNombre()"
-      formControlName="position"
+      formControlName="cargo"
     />
+    @if (form.get('cargo')?.touched && form.get('cargo')?.hasError('required'))
+    {
+    <p class="text-red-500 text-smfont-medium">el cargo es obligatorio.</p>
+    }
   </div>
   <div class="relative z-0 w-full mb-5 group">
     <app-buttons
       typeButton="submit"
-      titleButton="Guardar"
+      [titleButton]="form.value.id ? 'Actualizar' : 'Guardar'"
       classButton="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
     />
   </div>

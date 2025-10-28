@@ -8,7 +8,7 @@ import { Empleados } from '../Models/Empleados.model';
   providedIn: 'root',
 })
 export class EmpleadoService {
-  private apiUrl = `${environment.apiUrl}/empleados`;
+  private apiUrl = `${environment.apiUrl}/Empleado`;
   private http = inject(HttpClient);
 
   getAll(): Observable<Empleados[]> {

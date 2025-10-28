@@ -8,7 +8,7 @@ import { Ventas } from '../Models/Ventas.model';
   providedIn: 'root',
 })
 export class VentasService {
-  private apiUrl = `${environment.apiUrl}/ventas`;
+  private apiUrl = `${environment.apiUrl}/Venta`;
   private http = inject(HttpClient);
 
   getAll(): Observable<Ventas[]> {

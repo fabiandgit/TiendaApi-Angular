@@ -7,8 +7,7 @@
       type="text"
       formControlName="nombre"
       class="block mb-2 text-sm font-medium text-gray-900"
-      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-      placeHolder="Ej: Balón Nike"
+      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
     />
     @if (form.get('nombre')?.touched &&
     form.get('nombre')?.hasError('required')) {
@@ -24,8 +23,7 @@
       type="text"
       formControlName="descripcion"
       class="block mb-2 text-sm font-medium text-gray-900"
-      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-      placeHolder="Ej: Balón de entrenamiento"
+      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
     />
     @if ( form.get('descripcion')?.touched &&
     form.get('descripcion')?.hasError('required') ) {
@@ -41,8 +39,7 @@
       type="number"
       formControlName="precio"
       class="block mb-2 text-sm font-medium text-gray-900"
-      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-      placeHolder="Ej: 120000"
+      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
     />
     @if (form.get('precio')?.touched &&
     form.get('precio')?.hasError('required')) {
@@ -58,15 +55,14 @@
       nameLabel="Cantidad"
       inputId="cantidadProducto"
       type="number"
-      formControlName="cantidad"
+      formControlName="stock"
       class="block mb-2 text-sm font-medium text-gray-900"
-      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-      placeHolder="Ej: 15"
+      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
     />
-    @if ( form.get('cantidad')?.touched &&
-    form.get('cantidad')?.hasError('required') ) {
+    @if ( form.get('stock')?.touched && form.get('stock')?.hasError('required')
+    ) {
     <p class="text-red-500 text-sm">La cantidad es obligatoria.</p>
-    } @if (form.get('cantidad')?.hasError('min')) {
+    } @if (form.get('stock')?.hasError('min')) {
     <p class="text-red-500 text-sm">Debe ser al menos 1 unidad.</p>
     }
   </div>

@@ -1,16 +1,13 @@
 <form [formGroup]="form" (ngSubmit)="save()" class="max-w-sm mx-auto">
   <div class="relative z-0 w-full mb-5 group">
-    <app-inputs
-      nameLabel="Nombre Producto"
-      inputId="nombreProducto"
-      type="text"
-      formControlName="nombreProducto"
-      class="block mb-2 text-sm font-medium text-gray-900"
-      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-      placeHolder="Ej: Balón Nike"
+    <app-selects
+      labelName="Productos"
+      selectId="productoNombre"
+      [selectValues]="productosSimplificados()"
+      formControlName="productoNombre"
     />
-    @if (form.get('nombreProducto')?.touched &&
-    form.get('nombreProducto')?.hasError('required')) {
+    @if (form.get('productoNombre')?.touched &&
+    form.get('productoNombre')?.hasError('required')) {
     <p class="text-red-500 text-sm">El nombre es obligatorio.</p>
     }
   </div>
@@ -18,7 +15,7 @@
     <app-selects
       labelName="empleados"
       selectId="empleadoNombre"
-      [selectValues]="empleados()"
+      [selectValues]="empleadosSimplificados()"
       formControlName="empleadoNombre"
     />
     @if(form.get('empleadoNombre')?.touched &&
@@ -33,10 +30,10 @@
       type="number"
       class="block mb-2 text-sm font-medium text-gray-900"
       classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-      formControlName="amount"
+      formControlName="cantidad"
     />
-    @if (form.get('amount')?.touched &&
-    form.get('amount')?.hasError('required')) {
+    @if (form.get('cantidad')?.touched &&
+    form.get('cantidad')?.hasError('required')) {
     <p class="text-red-500 text-sm">la cantidad es obligatoria.</p>
     }
   </div>
@@ -57,7 +54,7 @@
   <div class="relative z-0 w-full mb-5 group">
     <app-buttons
       typeButton="submit"
-      titleButton="Guardar"
+      [titleButton]="form.value.id ? 'Actualizar' : 'Guardar'"
       classButton="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
     />
   </div>

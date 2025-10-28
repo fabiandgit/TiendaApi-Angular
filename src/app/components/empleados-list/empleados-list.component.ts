@@ -15,7 +15,8 @@ export class EmpleadosListComponent implements OnInit {
     { label: 'Apellido', key: 'apellido' },
     { label: 'Edad', key: 'edad' },
     { label: 'Celular', key: 'celular' },
-    { label: 'Opciones', key: 'opciones' },
+    { label: 'Cargo', key: 'cargo' },
+    { label: 'Email', key: 'email' },
   ]);
 
   empleado = signal<Empleados[]>([]);
