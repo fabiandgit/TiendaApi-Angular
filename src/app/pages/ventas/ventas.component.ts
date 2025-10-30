@@ -2,10 +2,11 @@ import { Component, signal, ViewChild } from '@angular/core';
 import { VentasFormComponent } from '../../components/ventas-form/ventas-form.component';
 import { VentasListComponent } from '../../components/ventas-list/ventas-list.component';
 import { Ventas } from '../../Models/Ventas.model';
+import { HeaderComponent } from '../../components/shared/header/header.component';
 
 @Component({
   selector: 'app-ventas',
-  imports: [VentasFormComponent, VentasListComponent],
+  imports: [VentasFormComponent, VentasListComponent, HeaderComponent],
   templateUrl: './ventas.component.html',
   styleUrl: './ventas.component.css',
 })

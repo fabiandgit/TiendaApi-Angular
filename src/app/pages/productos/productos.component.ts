@@ -2,10 +2,11 @@ import { Component, signal, ViewChild } from '@angular/core';
 import { ProductosListComponent } from '../../components/productos-list/productos-list.component';
 import { ProductosFormComponent } from '../../components/productos-form/productos-form.component';
 import { Productos } from '../../Models/Productos.model';
+import { HeaderComponent } from '../../components/shared/header/header.component';
 
 @Component({
   selector: 'app-productos',
-  imports: [ProductosListComponent, ProductosFormComponent],
+  imports: [ProductosListComponent, ProductosFormComponent, HeaderComponent],
   templateUrl: './productos.component.html',
   styleUrl: './productos.component.css',
 })
