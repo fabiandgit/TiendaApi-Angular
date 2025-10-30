@@ -4,12 +4,15 @@
   >
     Agregar / Editar Empleado
   </h2>
-  <app-empleados-form [empleadoSeleccionado]="empleadoSeleccionado()" />
+  <app-empleados-form
+    [empleadoSeleccionado]="empleadoSeleccionado()"
+    (empleadoGuardado)="recargarLista()"
+  />
   <hr class="text-white" />
   <h2
     class="flex justify-center text-2xl text-white font-bold mt-5 mb-5 underline"
   >
     Listado de Empleados
   </h2>
-  <app-empleados-list (editEmpleado)="cargarEmpleado($event)" />
+  <app-empleados-list (editEmpleado)="cargarEmpleado($event)" #listaEmpleados />
 </div>

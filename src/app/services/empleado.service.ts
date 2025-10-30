@@ -23,11 +23,11 @@ export class EmpleadoService {
     return this.http.post<Empleados>(this.apiUrl, empleado);
   }
 
-  updateEmpleado(id: number, empleado: Empleados): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/${id}`, empleado);
+  updateEmpleado(id: number, empleado: Empleados): Observable<Empleados> {
+    return this.http.put<Empleados>(`${this.apiUrl}/${id}`, empleado);
   }
 
-  deleteEmpleado(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  deleteEmpleado(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 }

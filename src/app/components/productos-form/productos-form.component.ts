@@ -6,6 +6,7 @@ import {
   SimpleChanges,
   inject,
   effect,
+  output,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -31,11 +32,11 @@ import { CommonModule } from '@angular/common';
   templateUrl: './productos-form.component.html',
 })
 export class ProductosFormComponent implements OnChanges {
-  // ✅ Recibimos el producto a editar desde el padre (puede ser null)
   // @Input() productoSeleccionado: Productos | null = null;
+  // ✅ Recibimos el producto a editar desde el padre (puede ser null)
   productoSeleccionado = input<Productos | null>(null);
+  productoGuardado = output<void>();
 
-  // Inyecciones
   private fb = inject(FormBuilder);
   private productoService = inject(ProductoService);
   private productoPendiente: Productos | null = null;
@@ -58,6 +59,9 @@ export class ProductosFormComponent implements OnChanges {
       if (producto) {
         this.form.patchValue(producto);
       }
+      // else {
+      //   this.resetForm();
+      // }
     }
   }
   ngOnInit(): void {
@@ -71,13 +75,12 @@ export class ProductosFormComponent implements OnChanges {
   //     const producto = this.productoSeleccionado();
   //     if (producto) {
   //       this.form.patchValue(producto);
-  //     }
+  //     }else {
+  //   this.resetForm();
+  // }
   //   });
   // }
 
-  /**
-   * 💾 Guarda o actualiza el producto según el caso
-   */
   save() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -87,22 +90,20 @@ export class ProductosFormComponent implements OnChanges {
     const producto = this.form.value as Productos;
 
     if (producto.id && producto.id > 0) {
-      // 🟡 Actualizar producto existente
       this.productoService.updateProducto(producto.id, producto).subscribe({
         next: () => {
           alert('Producto actualizado correctamente ✅');
           this.resetForm();
-          location.reload();
+          this.productoGuardado.emit();
         },
         error: (err) => console.error('Error al actualizar producto:', err),
       });
     } else {
-      // 🟢 Crear producto nuevo
       this.productoService.addProducto(producto).subscribe({
         next: () => {
           alert('Producto creado correctamente ✅');
           this.resetForm();
-          location.reload();
+          this.productoGuardado.emit();
         },
         error: (err) => console.error('Error al crear producto:', err),
       });
@@ -120,5 +121,8 @@ export class ProductosFormComponent implements OnChanges {
       precio: 0,
       stock: 0,
     });
+  }
+  alerta() {
+    this.resetForm();
   }
 }

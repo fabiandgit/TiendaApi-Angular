@@ -16,6 +16,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class SelectsComponent implements ControlValueAccessor {
   selectId = input('');
+  optionOne = input('');
   classLabel = input<string>('block mb-2 text-sm font-medium text-gray-900');
   labelName = input<string>();
   classSelect = input<string>(

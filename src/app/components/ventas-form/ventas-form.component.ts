@@ -2,53 +2,78 @@ import {
   Component,
   inject,
   input,
+  output,
   OnChanges,
-  signal,
   SimpleChanges,
+  signal,
 } from '@angular/core';
-import { InputsComponent } from '../shared/inputs/inputs.component';
-import { ButtonsComponent } from '../shared/buttons/buttons.component';
-import { Ventas } from '../../Models/Ventas.model';
-import { VentasService } from '../../services/ventas.service';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { InputsComponent } from '../shared/inputs/inputs.component';
+import { ButtonsComponent } from '../shared/buttons/buttons.component';
 import { SelectsComponent } from '../shared/selects/selects.component';
+import { Ventas } from '../../Models/Ventas.model';
+import { VentasService } from '../../services/ventas.service';
 import { EmpleadoService } from '../../services/empleado.service';
 import { ProductoService } from '../../services/producto.service';
+import { Productos } from '../../Models/Productos.model';
 
 @Component({
   selector: 'app-ventas-form',
   imports: [
     InputsComponent,
     ButtonsComponent,
-    ReactiveFormsModule,
     SelectsComponent,
+    ReactiveFormsModule,
   ],
   templateUrl: './ventas-form.component.html',
   styleUrl: './ventas-form.component.css',
 })
 export class VentasFormComponent implements OnChanges {
   ventaSeleccionada = input<Ventas | null>(null);
+  ventaGuardada = output<void>(); // 👈 Emite cuando se guarda o actualiza una venta
+
   empleadosSimplificados = signal<{ value: number; name: string }[]>([]);
-  productosSimplificados = signal<{ value: number; name: string }[]>([]);
+  productosSimplificados = signal<
+    { value: number; name: string; stock: number; price: number }[]
+  >([]);
+  productoActualizado: Productos = {
+    id: 0,
+    nombre: '',
+    descripcion: '',
+    precio: 0,
+    stock: 0,
+  };
 
   private fb = inject(FormBuilder);
   private ventasService = inject(VentasService);
   private empleadosService = inject(EmpleadoService);
   private productosService = inject(ProductoService);
-  private ventaPendiente: Ventas | null = null;
 
   form: FormGroup = this.fb.group({
     id: [0],
     productoNombre: ['', Validators.required],
     empleadoNombre: ['', Validators.required],
-    cantidad: ['', [Validators.required, Validators.min(0)]],
-    total: ['', [Validators.required, Validators.min(0)]],
+    cantidad: ['', [Validators.required, Validators.min(1)]],
+    total: ['', Validators.required],
   });
+
+  ngOnInit(): void {
+    this.cargarEmpleados();
+    this.cargarProductos();
+    this.form.get('total')?.disable();
+
+    this.form.get('productoNombre')?.valueChanges.subscribe(() => {
+      this.calcularTotal();
+    });
+    this.form.get('cantidad')?.valueChanges.subscribe(() => {
+      this.calcularTotal();
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['ventaSeleccionada']) {
@@ -59,67 +84,80 @@ export class VentasFormComponent implements OnChanges {
     }
   }
 
-  ngOnInit(): void {
-    this.cargarEmpleados();
-    this.cargarProductos();
-    const pendiente = this.ventaPendiente;
-    if (pendiente) {
-      this.form.patchValue(pendiente);
-    }
-  }
-  //   ngOnInit(): void {
-  //   effect(() => {
-  //     const empleado = this.empleadoSeleccionado();
-  //     if (empleado) {
-  //       this.form.patchValue(empleado);
-  //     }
-  //   });
-
-  //   const pendiente = this.empleadoPendiente();
-  //   if (pendiente) {
-  //     this.form.patchValue(pendiente);
-  //   }
-  // }
-
   save() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
-    let venta = this.form.value as Ventas;
+    const venta = this.form.value as Ventas;
+
+    // buscar empleado
     venta.empleadoId = parseInt(venta.empleadoNombre);
     const empleado = this.empleadosSimplificados().find(
       (e) => e.value === venta.empleadoId
     );
     venta.empleadoNombre = empleado?.name ?? '';
 
+    // buscar producto
     venta.productoId = parseInt(venta.productoNombre);
     const producto = this.productosSimplificados().find(
       (p) => p.value === venta.productoId
     );
-    venta.productoNombre = producto?.name ?? '';
+
+    if (!producto) {
+      alert('Producto no válido');
+      return;
+    }
+
+    if (venta.cantidad > producto.stock) {
+      alert(
+        `Stock insuficiente. Solo hay ${producto.stock} unidades disponibles.`
+      );
+      return;
+    }
+
+    venta.productoNombre = producto.name;
+    venta.total = producto.price * venta.cantidad;
 
     if (venta.id && venta.id > 0) {
       this.ventasService.updateVenta(venta.id, venta).subscribe({
         next: () => {
-          alert('Producto actualizado correctamente ✅');
+          alert('Venta actualizada correctamente ✅');
           this.resetForm();
-          location.reload();
+          this.ventaGuardada.emit();
         },
-        error: (err) =>
-          console.log('No se pudo actualizar la información', err),
+        error: (err) => console.error('Error al actualizar la venta:', err),
       });
     } else {
       this.ventasService.addVenta(venta).subscribe({
         next: () => {
-          alert('Venta guardada correctamente ✅');
+          alert('Venta creada correctamente ✅');
+          this.actualizarStockProducto(producto, venta.cantidad);
           this.resetForm();
-          location.reload();
+          this.ventaGuardada.emit(); // 🔥 recargar tabla
         },
-        error: (err) => console.log('No se pudo guardar la información', err),
+        error: (err) => console.error('Error al crear la venta:', err),
       });
     }
+  }
+
+  private actualizarStockProducto(producto: any, cantidadVendida: number) {
+    const nuevoStock = producto.stock - cantidadVendida;
+    this.productoActualizado = {
+      id: producto.value,
+      nombre: producto.name,
+      descripcion: producto.descripcion,
+      precio: producto.price,
+      stock: nuevoStock,
+    };
+
+    this.productosService
+      .updateProducto(this.productoActualizado.id, this.productoActualizado)
+      .subscribe({
+        next: () => console.log('Stock actualizado correctamente'),
+        error: (err) => console.error('Error al actualizar el stock', err),
+      });
   }
 
   cargarEmpleados() {
@@ -131,7 +169,6 @@ export class VentasFormComponent implements OnChanges {
         }));
         this.empleadosSimplificados.set(simplificados);
       },
-      error: (err) => console.log('Error al consultar los empleados', err),
     });
   }
 
@@ -146,17 +183,35 @@ export class VentasFormComponent implements OnChanges {
         }));
         this.productosSimplificados.set(simplificados);
       },
-      error: (err) => console.log('error al consultar los productos', err),
     });
+  }
+
+  calcularTotal() {
+    const productoId = parseInt(this.form.get('productoNombre')?.value);
+    const cantidad = parseFloat(this.form.get('cantidad')?.value);
+    const producto = this.productosSimplificados().find(
+      (p) => p.value === productoId
+    );
+
+    if (producto && !isNaN(cantidad)) {
+      const total = cantidad <= producto.stock ? producto.price * cantidad : 0;
+      this.form.get('total')?.setValue(total, { emitEvent: false });
+    } else {
+      this.form.get('total')?.setValue(0, { emitEvent: false });
+    }
   }
 
   resetForm() {
     this.form.reset({
       id: 0,
-      nombreProducto: '',
+      productoNombre: '',
       empleadoNombre: '',
-      amount: 0,
+      cantidad: 0,
       total: 0,
     });
+  }
+
+  alerta() {
+    this.resetForm();
   }
 }

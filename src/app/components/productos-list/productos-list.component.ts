@@ -17,7 +17,7 @@ export class ProductosListComponent implements OnInit {
 
   // 🔹 Nuevo: evento para comunicar al padre el producto seleccionado
   edit = output<Productos>();
-
+  deleted = output<void>();
   ngOnInit(): void {
     this.cargarProductos();
   }
@@ -35,9 +35,11 @@ export class ProductosListComponent implements OnInit {
   }
 
   onDelete(producto: Productos) {
-    if (confirm('¿Seguro que deseas eliminar este producto?')) {
+    if (confirm(`¿Seguro que deseas eliminar "${producto.nombre}"?`)) {
       this.productoService.deleteProducto(producto.id).subscribe({
-        next: () => this.cargarProductos(),
+        next: () => {
+          this.cargarProductos(), this.deleted.emit();
+        },
         error: (err) => console.error('Error eliminando producto', err),
       });
     }

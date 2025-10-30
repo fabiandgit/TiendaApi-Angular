@@ -19,7 +19,7 @@ export class EmpleadosListComponent implements OnInit {
     { label: 'Email', key: 'email' },
   ]);
 
-  empleado = signal<Empleados[]>([]);
+  empleados = signal<Empleados[]>([]);
   editEmpleado = output<Empleados>();
 
   private empleadoService = inject(EmpleadoService);
@@ -30,7 +30,7 @@ export class EmpleadosListComponent implements OnInit {
 
   cargarEmpleados() {
     this.empleadoService.getAll().subscribe({
-      next: (data) => this.empleado.set(data),
+      next: (data) => this.empleados.set(data),
       error: (err) => console.log('error al encontrar los empleados', err),
     });
   }
@@ -39,9 +39,13 @@ export class EmpleadosListComponent implements OnInit {
     this.editEmpleado.emit(empleado);
   }
   onDelete(empleado: Empleados) {
-    if (confirm('DEsea eliminar este empleado?')) {
+    if (confirm(`¿Deseas eliminar a ${empleado.nombre}?`)) {
       this.empleadoService.deleteEmpleado(empleado.id).subscribe({
-        next: () => this.cargarEmpleados(),
+        next: () => {
+          const actual = this.empleados().filter((e) => e.id !== empleado.id);
+          this.empleados.set(actual);
+          alert('Empleado eliminado correctamente ✅');
+        },
         error: (err) => console.log('error al eliminar el empleado', err),
       });
     }

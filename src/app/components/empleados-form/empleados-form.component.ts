@@ -4,6 +4,7 @@ import {
   inject,
   input,
   OnChanges,
+  output,
   SimpleChanges,
 } from '@angular/core';
 import {
@@ -31,6 +32,7 @@ import { SelectsComponent } from '../shared/selects/selects.component';
 })
 export class EmpleadosFormComponent implements OnChanges {
   empleadoSeleccionado = input<Empleados | null>(null);
+  empleadoGuardado = output<void>();
   empleadoPendiente: Empleados | null = null;
   cargoNombre = input([
     { name: 'Vendedor', value: 'Vendedor' },
@@ -100,18 +102,18 @@ export class EmpleadosFormComponent implements OnChanges {
     if (empleado.id && empleado.id > 0) {
       this.empleadoService.updateEmpleado(empleado.id, empleado).subscribe({
         next: () => {
-          alert('Producto actualizado correctamente ✅');
+          alert('Empleado actualizado correctamente ✅');
           this.resetForm();
-          location.reload();
+          this.empleadoGuardado.emit();
         },
         error: (err) => console.error('Error al actualizar producto:', err),
       });
     } else {
       this.empleadoService.saveEmpleado(empleado).subscribe({
         next: () => {
-          alert('Producto creado correctamente ✅');
+          alert('Empleado creado correctamente ✅');
           this.resetForm();
-          location.reload();
+          this.empleadoGuardado.emit();
         },
         error: (err) => console.error('Error al crear producto:', err),
       });
@@ -120,11 +122,19 @@ export class EmpleadosFormComponent implements OnChanges {
   resetForm() {
     this.form.reset({
       id: 0,
-      nameEmployee: '',
-      lasNameEmployee: '',
-      phone: 0,
-      ageEmployee: '',
-      position: '',
+      nombre: '',
+      apellido: '',
+      edad: '',
+      email: '',
+      celular: '',
+      cargo: '',
     });
+  }
+  hasError(controlName: string, errorName: string) {
+    const control = this.form.get(controlName);
+    return control?.touched && control.hasError(errorName);
+  }
+  alerta() {
+    this.resetForm();
   }
 }

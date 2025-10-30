@@ -8,8 +8,7 @@
       formControlName="nombre"
       type="text"
     />
-    @if (form.get('nombre')?.touched &&
-    form.get('nombre')?.hasError('required')) {
+    @if (hasError('nombre','required')) {
     <p class="text-red-500 text-sm font-medium">El nombre es obligatorio.</p>
     }
   </div>
@@ -22,8 +21,7 @@
       formControlName="apellido"
       type="text"
     />
-    @if (form.get('apellido')?.touched &&
-    form.get('apellido')?.hasError('required')) {
+    @if (hasError('apellido','required')) {
     <p class="text-red-500 text-smfont-medium">El apellido es obligatorio.</p>
     }
   </div>
@@ -36,7 +34,7 @@
       formControlName="edad"
       type="text"
     />
-    @if (form.get('edad')?.touched && form.get('edad')?.hasError('required')) {
+    @if (hasError('edad','required')) {
     <p class="text-red-500 text-smfont-medium">la edad es obligatorio.</p>
     }
   </div>
@@ -73,17 +71,24 @@
       labelName="Cargo"
       [selectValues]="cargoNombre()"
       formControlName="cargo"
+      optionOne="Seleccione el Cargo"
     />
     @if (form.get('cargo')?.touched && form.get('cargo')?.hasError('required'))
     {
     <p class="text-red-500 text-smfont-medium">el cargo es obligatorio.</p>
     }
   </div>
-  <div class="relative z-0 w-full mb-5 group">
+  <div class="relative z-0 w-full mb-5 group flex justify-around">
     <app-buttons
       typeButton="submit"
       [titleButton]="form.value.id ? 'Actualizar' : 'Guardar'"
-      classButton="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      classButton="cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+    />
+    <app-buttons
+      typeButton="button"
+      (click)="alerta()"
+      titleButton="limpiar"
+      classButton="cursor-pointer text-gray bg-white hover:bg-amber-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
     />
   </div>
 </form>

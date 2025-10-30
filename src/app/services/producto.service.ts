@@ -36,6 +36,8 @@ export class ProductoService {
    * 🟡 Actualizar producto existente
    */
   updateProducto(id: number, producto: Productos): Observable<void> {
+    console.log(`${id}, prducto ${producto}`);
+
     return this.http.put<void>(`${this.apiUrl}/${id}`, producto);
   }
 

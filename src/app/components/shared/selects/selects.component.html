@@ -7,7 +7,7 @@
     (change)="handleChange($event)"
     (blur)="onTouched()"
   >
-    <option value="">Seleccion el Cargo</option>
+    <option value="">{{ optionOne() }}</option>
     @for (item of selectValues(); track $index) {
 
     <option [value]="item.value">{{ item.name }}</option>

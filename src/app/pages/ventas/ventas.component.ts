@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ViewChild } from '@angular/core';
 import { VentasFormComponent } from '../../components/ventas-form/ventas-form.component';
 import { VentasListComponent } from '../../components/ventas-list/ventas-list.component';
 import { Ventas } from '../../Models/Ventas.model';
@@ -11,8 +11,13 @@ import { Ventas } from '../../Models/Ventas.model';
 })
 export class VentasComponent {
   ventaSeleccionada = signal<Ventas | null>(null);
+  @ViewChild(VentasListComponent) ventasList!: VentasListComponent;
 
   mostrarVentaSeleccionada(venta: Ventas) {
     this.ventaSeleccionada.set(venta);
+  }
+
+  recargarVentas() {
+    this.ventasList.cargarVentas();
   }
 }

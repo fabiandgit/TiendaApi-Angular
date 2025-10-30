@@ -8,6 +8,7 @@
     [value]="value"
     (input)="handleChange($event)"
     (blur)="onTouched()"
+    [disabled]="isDisabledInput() || isDisabledInternal()"
     required
   />
 </div>
