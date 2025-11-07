@@ -39,7 +39,13 @@ export class VentasFormComponent implements OnChanges {
 
   empleadosSimplificados = signal<{ value: number; name: string }[]>([]);
   productosSimplificados = signal<
-    { value: number; name: string; stock: number; price: number }[]
+    {
+      value: number;
+      name: string;
+      description: string;
+      stock: number;
+      price: number;
+    }[]
   >([]);
   productoActualizado: Productos = {
     id: 0,
@@ -144,10 +150,11 @@ export class VentasFormComponent implements OnChanges {
 
   private actualizarStockProducto(producto: any, cantidadVendida: number) {
     const nuevoStock = producto.stock - cantidadVendida;
+
     this.productoActualizado = {
       id: producto.value,
       nombre: producto.name,
-      descripcion: producto.descripcion,
+      descripcion: producto.description,
       precio: producto.price,
       stock: nuevoStock,
     };
@@ -178,6 +185,7 @@ export class VentasFormComponent implements OnChanges {
         const simplificados = data.map((producto) => ({
           value: producto.id,
           name: producto.nombre,
+          description: producto.descripcion,
           stock: producto.stock,
           price: producto.precio,
         }));

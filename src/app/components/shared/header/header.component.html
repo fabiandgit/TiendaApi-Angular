@@ -1,3 +1,14 @@
-<div class="bg-black text-white w-full m-0 p-4">
-  <h1 class="text-2xl font-bold mb-4">Bienvenido al sistema</h1>
+<div
+  class="flex justify-between items-center bg-black text-white w-full m-0 p-4"
+>
+  <h1 class="text-2xl font-bold">
+    Bienvenido al sistema "{{ this.username()?.toUpperCase() }}"
+  </h1>
+
+  <button
+    (click)="logOut()"
+    class="text-sm text-white bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded cursor-pointer"
+  >
+    Cerrar sesión
+  </button>
 </div>

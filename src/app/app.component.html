@@ -1,6 +1,23 @@
-<div class="flex h-screen">
-  <app-nav />
-  <div class="flex-1 overflow-auto p-0">
+<div
+  class="h-screen"
+  [ngClass]="{
+    'flex items-center justify-center bg-gray-200': isLogin,
+    flex: !isLogin
+  }"
+>
+  @if (!isLogin) {
+
+  <ng-container>
+    <app-nav />
+    <div class="flex-1 overflow-auto p-0">
+      <router-outlet />
+    </div>
+  </ng-container>
+  } @else {
+
+  <div class="flex items-center justify-center min-h-screen bg-gray-300">
     <router-outlet />
   </div>
+
+  }
 </div>

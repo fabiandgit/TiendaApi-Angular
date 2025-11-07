@@ -1,0 +1,46 @@
+<form
+  [formGroup]="formLogin"
+  (ngSubmit)="onSubmit()"
+  class="bg-black text-white max-w-sm mx-auto p-10 border-3 rounded-2xl shadow-xl/30 shadow-black"
+>
+  <div>
+    <p class="text-center font-bold text-2xl mb-3 underline">Iniciar Sesion</p>
+  </div>
+  <div class="relative z-0 w-full mb-5 group">
+    <app-inputs
+      nameLabel="Usuario"
+      class="block mb-2 text-sm font-medium text-white"
+      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+      inputId="userName"
+      formControlName="userName"
+      type="text"
+    />
+    @if(formLogin.get('name')?.touched &&
+    formLogin.get('userName')?.hasError('required')) {
+    <p class="text-red-500 text-smfont-medium">el nombre es obligatorio.</p>
+    }
+  </div>
+  <div class="relative z-0 w-full mb-5 group">
+    <app-inputs
+      nameLabel="Contraseña"
+      class="block mb-2 text-sm font-medium text-white"
+      classInput="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+      inputId="userPassword"
+      formControlName="userPassword"
+      type="text"
+    />
+    @if(formLogin.get('userPassword')?.touched &&
+    formLogin.get('userPassword')?.hasError('required')) {
+    <p class="text-red-500 text-smfont-medium">
+      La contrasseña es obligatoria.
+    </p>
+    }
+  </div>
+  <div class="relative z-0 w-full mb-5 group flex justify-around">
+    <app-buttons
+      typeButton="submit"
+      titleButton="Entrar"
+      classButton="cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+    />
+  </div>
+</form>
