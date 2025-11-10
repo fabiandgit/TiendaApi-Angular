@@ -18,6 +18,7 @@ import { ButtonsComponent } from '../shared/buttons/buttons.component';
 import { Empleados } from '../../Models/Empleados.model';
 import { EmpleadoService } from '../../services/empleado.service';
 import { SelectsComponent } from '../shared/selects/selects.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-empleados-form',
@@ -40,6 +41,7 @@ export class EmpleadosFormComponent implements OnChanges {
     { name: 'Gerente', value: 'Gerente' },
   ]);
 
+  private toast = inject(ToastrService);
   private fb = inject(FormBuilder);
   private empleadoService = inject(EmpleadoService);
 
@@ -96,26 +98,33 @@ export class EmpleadosFormComponent implements OnChanges {
   saveEmplado() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      this.toast.warning('Cuidado!', 'Todos los campos son obligatorios');
       return;
     }
     const empleado = this.form.value as Empleados;
     if (empleado.id && empleado.id > 0) {
       this.empleadoService.updateEmpleado(empleado.id, empleado).subscribe({
         next: () => {
-          alert('Empleado actualizado correctamente ✅');
+          this.toast.success('Exito!', 'Empleado actualizado correctamente ✅');
           this.resetForm();
           this.empleadoGuardado.emit();
         },
-        error: (err) => console.error('Error al actualizar producto:', err),
+        error: (err) => {
+          console.error('Error al actualizar producto:', err);
+          this.toast.error('Error!', err);
+        },
       });
     } else {
       this.empleadoService.saveEmpleado(empleado).subscribe({
         next: () => {
-          alert('Empleado creado correctamente ✅');
+          this.toast.success('Exito!', 'Empleado creado correctamente ✅');
           this.resetForm();
           this.empleadoGuardado.emit();
         },
-        error: (err) => console.error('Error al crear producto:', err),
+        error: (err) => {
+          console.error('Error al crear producto:', err);
+          this.toast.error('error!', err);
+        },
       });
     }
   }
@@ -129,6 +138,7 @@ export class EmpleadosFormComponent implements OnChanges {
       celular: '',
       cargo: '',
     });
+    this.empleadoGuardado.emit();
   }
   hasError(controlName: string, errorName: string) {
     const control = this.form.get(controlName);

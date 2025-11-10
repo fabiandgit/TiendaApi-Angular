@@ -21,6 +21,7 @@ import { VentasService } from '../../services/ventas.service';
 import { EmpleadoService } from '../../services/empleado.service';
 import { ProductoService } from '../../services/producto.service';
 import { Productos } from '../../Models/Productos.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-ventas-form',
@@ -55,6 +56,7 @@ export class VentasFormComponent implements OnChanges {
     stock: 0,
   };
 
+  private toast = inject(ToastrService);
   private fb = inject(FormBuilder);
   private ventasService = inject(VentasService);
   private empleadosService = inject(EmpleadoService);
@@ -93,6 +95,7 @@ export class VentasFormComponent implements OnChanges {
   save() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      this.toast.warning('Cuidado!', 'Todos los campos son obligatorios');
       return;
     }
 
@@ -112,12 +115,13 @@ export class VentasFormComponent implements OnChanges {
     );
 
     if (!producto) {
-      alert('Producto no válido');
+      this.toast.error('Error!', 'Producto no válido');
       return;
     }
 
     if (venta.cantidad > producto.stock) {
-      alert(
+      this.toast.warning(
+        'Cuidado!',
         `Stock insuficiente. Solo hay ${producto.stock} unidades disponibles.`
       );
       return;
@@ -129,21 +133,21 @@ export class VentasFormComponent implements OnChanges {
     if (venta.id && venta.id > 0) {
       this.ventasService.updateVenta(venta.id, venta).subscribe({
         next: () => {
-          alert('Venta actualizada correctamente ✅');
+          this.toast.success('Exito!', 'Venta actualizada correctamente ✅');
           this.resetForm();
           this.ventaGuardada.emit();
         },
-        error: (err) => console.error('Error al actualizar la venta:', err),
+        error: (err) => this.toast.error('Error!', err),
       });
     } else {
       this.ventasService.addVenta(venta).subscribe({
         next: () => {
-          alert('Venta creada correctamente ✅');
+          this.toast.success('Exito!', 'Venta creada correctamente ✅');
           this.actualizarStockProducto(producto, venta.cantidad);
           this.resetForm();
           this.ventaGuardada.emit(); // 🔥 recargar tabla
         },
-        error: (err) => console.error('Error al crear la venta:', err),
+        error: (err) => this.toast.error('Error!', err),
       });
     }
   }
@@ -162,8 +166,9 @@ export class VentasFormComponent implements OnChanges {
     this.productosService
       .updateProducto(this.productoActualizado.id, this.productoActualizado)
       .subscribe({
-        next: () => console.log('Stock actualizado correctamente'),
-        error: (err) => console.error('Error al actualizar el stock', err),
+        next: () =>
+          this.toast.success('Exito!', 'Stock actualizado correctamente'),
+        error: (err) => this.toast.error('Error!', err),
       });
   }
 
@@ -176,6 +181,7 @@ export class VentasFormComponent implements OnChanges {
         }));
         this.empleadosSimplificados.set(simplificados);
       },
+      error: (err) => this.toast.error('Error!', err),
     });
   }
 
@@ -191,6 +197,7 @@ export class VentasFormComponent implements OnChanges {
         }));
         this.productosSimplificados.set(simplificados);
       },
+      error: (err) => this.toast.error('Error!', err),
     });
   }
 
@@ -217,6 +224,7 @@ export class VentasFormComponent implements OnChanges {
       cantidad: 0,
       total: 0,
     });
+    this.ventaGuardada.emit();
   }
 
   alerta() {

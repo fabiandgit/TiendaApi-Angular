@@ -25,11 +25,17 @@ export class AuthService {
     return localStorage.getItem('nombreUsuario');
   }
 
+  // login(username: string, password: string) {
+  //   this.isLoggedIn.set(true);
+  //   this.router.navigate(['/home']);
+  //   localStorage.setItem('nombreUsuario', username);
+  // }
   login(username: string, password: string): Observable<any> {
     let logindto = {
       NombreUsuario: username,
       Password: password,
     };
+    localStorage.setItem('nombreUsuario', username);
     return this.http.post(`${this.apiUrl}/login`, logindto).pipe(
       tap((response: any) => {
         localStorage.setItem('token', response.token);

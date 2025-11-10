@@ -14,12 +14,16 @@ export class EmpleadosComponent {
   @ViewChild('listaEmpleados') listaEmpleados!: EmpleadosListComponent;
 
   empleadoSeleccionado = signal<Empleados | null>(null);
+  title = signal<string>('Agregar');
 
   cargarEmpleado(empleado: Empleados) {
     this.empleadoSeleccionado.set(empleado);
+    this.title.set('Editar');
   }
 
   recargarLista() {
+    console.log(this.title());
+    this.title.set('Agregar');
     this.listaEmpleados.cargarEmpleados();
   }
 }

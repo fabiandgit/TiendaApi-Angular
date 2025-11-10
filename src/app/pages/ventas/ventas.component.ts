@@ -12,13 +12,16 @@ import { HeaderComponent } from '../../components/shared/header/header.component
 })
 export class VentasComponent {
   ventaSeleccionada = signal<Ventas | null>(null);
+  title = signal<string>('Agregar');
   @ViewChild(VentasListComponent) ventasList!: VentasListComponent;
 
   mostrarVentaSeleccionada(venta: Ventas) {
     this.ventaSeleccionada.set(venta);
+    this.title.set('Actualizar');
   }
 
   recargarVentas() {
     this.ventasList.cargarVentas();
+    this.title.set('Agregar');
   }
 }

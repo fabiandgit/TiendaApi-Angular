@@ -12,17 +12,20 @@ import { HeaderComponent } from '../../components/shared/header/header.component
 })
 export class ProductosComponent {
   productoSeleccionado = signal<Productos | null>(null);
+  title = signal<string>('Agregar');
 
   // Referencia al listado para poder recargar
   @ViewChild(ProductosListComponent) listaComponent!: ProductosListComponent;
 
   onProductoSeleccionado(producto: Productos) {
     this.productoSeleccionado.set(producto);
+    this.title.set('Editar');
   }
 
   onProductoGuardado() {
     this.listaComponent.cargarProductos(); // 🟢 Recarga lista automáticamente
     this.productoSeleccionado.set(null); // Limpia selección
+    this.title.set('Agregar');
   }
 
   onProductoEliminado() {

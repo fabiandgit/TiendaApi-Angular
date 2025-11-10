@@ -19,6 +19,7 @@ import { Productos } from '../../Models/Productos.model';
 import { InputsComponent } from '../../components/shared/inputs/inputs.component';
 import { ButtonsComponent } from '../../components/shared/buttons/buttons.component';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-productos-form',
@@ -37,6 +38,7 @@ export class ProductosFormComponent implements OnChanges {
   productoSeleccionado = input<Productos | null>(null);
   productoGuardado = output<void>();
 
+  private toast = inject(ToastrService);
   private fb = inject(FormBuilder);
   private productoService = inject(ProductoService);
   private productoPendiente: Productos | null = null;
@@ -92,20 +94,26 @@ export class ProductosFormComponent implements OnChanges {
     if (producto.id && producto.id > 0) {
       this.productoService.updateProducto(producto.id, producto).subscribe({
         next: () => {
-          alert('Producto actualizado correctamente ✅');
           this.resetForm();
           this.productoGuardado.emit();
+          this.toast.success('Exito', 'Producto Actualizado correctamente ✅');
         },
-        error: (err) => console.error('Error al actualizar producto:', err),
+        error: (err) => {
+          console.error('Error al actualizar producto:', err);
+          this.toast.error('Error', err);
+        },
       });
     } else {
       this.productoService.addProducto(producto).subscribe({
         next: () => {
-          alert('Producto creado correctamente ✅');
+          this.toast.success('Exito', 'Producto creado correctamente ✅');
           this.resetForm();
           this.productoGuardado.emit();
         },
-        error: (err) => console.error('Error al crear producto:', err),
+        error: (err) => {
+          console.error('Error al crear producto:', err);
+          this.toast.success('Error', err);
+        },
       });
     }
   }
@@ -121,6 +129,7 @@ export class ProductosFormComponent implements OnChanges {
       precio: 0,
       stock: 0,
     });
+    this.productoGuardado.emit();
   }
   alerta() {
     this.resetForm();
