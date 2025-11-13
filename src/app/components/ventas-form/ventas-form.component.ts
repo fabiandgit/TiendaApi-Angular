@@ -38,7 +38,7 @@ export class VentasFormComponent implements OnChanges {
   ventaSeleccionada = input<Ventas | null>(null);
   ventaGuardada = output<void>(); // 👈 Emite cuando se guarda o actualiza una venta
 
-  empleadosSimplificados = signal<{ value: number; name: string }[]>([]);
+  empleadosSimplificados = signal<{ name: string; value: number }[]>([]);
   productosSimplificados = signal<
     {
       value: number;
@@ -87,9 +87,30 @@ export class VentasFormComponent implements OnChanges {
     if (changes['ventaSeleccionada']) {
       const venta = this.ventaSeleccionada();
       if (venta) {
-        this.form.patchValue(venta);
+        const empleadoId = this.obtenerIdDesdeNombre(
+          this.empleadosSimplificados(),
+          venta.empleadoNombre
+        );
+        const productoId = this.obtenerIdDesdeNombre(
+          this.productosSimplificados(),
+          venta.productoNombre
+        );
+
+        this.form.patchValue({
+          ...venta,
+          empleadoNombre: empleadoId,
+          productoNombre: productoId,
+        });
       }
     }
+  }
+
+  private obtenerIdDesdeNombre<T extends { name: string; value: number }>(
+    lista: T[],
+    nombre: string
+  ): number | '' {
+    const item = lista.find((i) => i.name === nombre);
+    return item?.value ?? ''; //Nullish coalescing
   }
 
   save() {

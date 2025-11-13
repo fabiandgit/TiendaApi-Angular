@@ -47,4 +47,15 @@ export class ProductoService {
   deleteProducto(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  getProductosPaginados(
+    page: number,
+    size: number
+  ): Observable<{ items: Productos[]; totalCount: number }> {
+    const params = { pageNumber: page, pageSize: size };
+    return this.http.get<{ items: Productos[]; totalCount: number }>(
+      `${this.apiUrl}/paged`,
+      { params }
+    );
+  }
 }

@@ -4,5 +4,8 @@
     [data]="ventas()"
     (edit)="onEdit($event)"
     (delete)="onDelete($event)"
+    [page]="page()"
+    [totalPages]="totalPage"
+    (pageChange)="cambiarPagina($event)"
   />
 </div>

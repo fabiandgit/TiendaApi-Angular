@@ -30,4 +30,15 @@ export class EmpleadoService {
   deleteEmpleado(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
+
+  getEmpleadosPaginados(
+    page: number,
+    size: number
+  ): Observable<{ items: Empleados[]; totalCount: number }> {
+    const params = { pageNumber: page, pageSize: size };
+    return this.http.get<{ items: Empleados[]; totalCount: number }>(
+      `${this.apiUrl}/paged`,
+      { params }
+    );
+  }
 }

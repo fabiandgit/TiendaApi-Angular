@@ -9,5 +9,8 @@
     [data]="productos()"
     (edit)="onEdit($event)"
     (delete)="onDelete($event)"
+    [page]="page()"
+    [totalPages]="totalPages"
+    (pageChange)="cambiarPagina($event)"
   />
 </div>

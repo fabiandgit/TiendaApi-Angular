@@ -2,6 +2,7 @@ import { Component, inject, OnInit, output, signal } from '@angular/core';
 import { TableComponent } from '../shared/table/table.component';
 import { Empleados } from '../../Models/Empleados.model';
 import { EmpleadoService } from '../../services/empleado.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-empleados-list',
@@ -20,19 +21,41 @@ export class EmpleadosListComponent implements OnInit {
   ]);
 
   empleados = signal<Empleados[]>([]);
+  totalItems = signal<number>(0);
+  page = signal<number>(1);
+  pageSize = signal<number>(10);
   editEmpleado = output<Empleados>();
 
   private empleadoService = inject(EmpleadoService);
+  private toast = inject(ToastrService);
 
   ngOnInit(): void {
     this.cargarEmpleados();
   }
 
   cargarEmpleados() {
-    this.empleadoService.getAll().subscribe({
-      next: (data) => this.empleados.set(data),
-      error: (err) => console.log('error al encontrar los empleados', err),
-    });
+    // this.empleadoService.getAll().subscribe({
+    //   next: (data) => this.empleados.set(data),
+    //   error: (err) => this.toast.error('error al encontrar los empleados', err),
+    // });
+    this.empleadoService
+      .getEmpleadosPaginados(this.page(), this.pageSize())
+      .subscribe({
+        next: (data) => {
+          this.empleados.set(data.items), this.totalItems.set(data.totalCount);
+        },
+        error: (err) =>
+          this.toast.error('Error al encontrar los empleados', err),
+      });
+  }
+
+  cambiarPagina(nuevaPagina: number) {
+    this.page.set(nuevaPagina);
+    this.cargarEmpleados();
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.totalItems() / this.pageSize());
   }
 
   onEdit(empleado: Empleados) {

@@ -30,4 +30,15 @@ export class VentasService {
   deleteVenta(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  getPagination(
+    page: number,
+    totalItem: number
+  ): Observable<{ items: Ventas[]; totalPage: number }> {
+    const params = { page: page, totalItem: totalItem };
+    return this.http.get<{ items: Ventas[]; totalPage: number }>(
+      `${this.apiUrl}/paged`,
+      { params }
+    );
+  }
 }

@@ -28,8 +28,6 @@ export class LoginComponent {
 
   onSubmit() {
     if (!this.formLogin.invalid) {
-      console.log('entro');
-
       const username = this.formLogin.value.userName;
       const userpassword = this.formLogin.value.userPassword;
 
